@@ -1,0 +1,160 @@
+<% layout('layouts/boilerplate') %>
+<div class="mb-3">
+    <button type="button" onclick="getLocation()" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Auto Detect
+      </button>
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+        Add Manually
+      </button>
+</div>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Auto Detect Location</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="autoLocate">
+          detecting location...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Location</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/user/location?_method=PUT" method="POST" novalidate class="validated-form">
+            
+                <div class="mb-3">
+                    <textarea  name="location" class="form-control" type="text" id="lol" rows="3" placeholder="e.g. 30/9, Some Street, New Delhi, India 110007" required></textarea>
+                    <div class="invalid-feedback">
+                        Please provide a location.
+                      </div>  
+                </div>
+                  <div>
+                    <button class="btn btn-dark w-100">Save Location</button>
+                </div>
+            
+            </form>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if(location==""){ %> 
+    <h3>No Location Saved</h3>
+    <% }else { %> 
+  <div class="card">
+    <h5 class="card-header">Location Saved</h5>
+    <div class="card-body">
+      <p class="card-text"><%= location %> </p>
+      <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+        Edit This
+      </button>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Location</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/user/location?_method=PUT" method="POST" novalidate class="validated-form">
+            
+                <div class="mb-3">
+                    <textarea name="location" class="form-control" type="text" id="lol2" rows="3" required><%=location%></textarea>
+                    <div class="invalid-feedback">
+                        Please provide a location.
+                      </div>
+                
+                </div>
+                  <div>
+                    <button class="btn btn-dark w-100">Save Location</button>
+                </div>
+            
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %> 
+<hr>
+    <h5>Your location is required for making deliveries and pickup of items. Please save one to continue using Webbid.</h5>
+  <script>
+      var x = document.getElementById("autoLocate");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+
+    const lat = position.coords.latitude
+    const lon = position.coords.longitude
+    const fetchLocation = async () =>{
+        try{
+            const res = await axios.get("https://api.mapbox.com/geocoding/v5/mapbox.places/"+lon+","+lat+".json?access_token=pk.eyJ1IjoibWlsYW4wMDI3IiwiYSI6ImNrdDQ5MXFscjExbjkycG1saWU2Z2dzaGEifQ.nEKoH2JJesiXLcCaLn-uGw")
+            const location_text = res.data.features[0].place_name;
+            x.innerHTML = `<form action="/user/location?_method=PUT" method="POST" novalidate class="validated-form">
+            
+            <div class="mb-3">
+                <textarea  name="location" class="form-control" type="text" id="lol" rows="3"required>${location_text}</textarea>
+                <div class="invalid-feedback">
+                    Please provide a location.
+                  </div>  
+            </div>
+              <div>
+                <button class="btn btn-dark w-100">Save Location</button>
+            </div>
+        
+        </form> `
+        }
+        catch(e){
+            console.log("error", e)
+
+        }
+    }
+    fetchLocation()
+ 
+}
+
+function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      x.innerHTML = "User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML = "Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML = "The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML = "An unknown error occurred."
+      break;
+  }
+}
+  </script>

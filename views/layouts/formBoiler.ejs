@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webbid</title>
+    <link rel="icon" href="/logo/favicon.png">
+    <link href="/stylesheets/index.css" rel = "stylesheet">
+    <link href="/stylesheets/additem.css" rel = "stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  </head>
+<body>
+  <div id="top"></div>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><i class="fas fa-won-sign"></i>ebbid</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <div>
+
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="/products">All</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/trending">Trending</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/live">Live</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/upcoming">Upcoming</a>
+                </li>
+                <li class="nav-item">
+
+                  <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                   Explore
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+            
+
+
+            <div class="ms-auto">
+              <ul class="navbar-nav">
+                <% if(!currentUser){ %> 
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">LogIn</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/register">SignUp</a>
+                </li>
+                <% }else{ %> 
+                  
+                <a class="navbar-brand" href="#offcanvasExample" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fas fa-user-alt"></i>  <%= currentUser.username %> </a>
+              
+                <% } %> 
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </nav>
+      <% if(currentUser){ %> 
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width:300px">
+        <div class="offcanvas-header">
+          <h4 id="offcanvasRightLabel">@<%=currentUser.username %> </h4>
+          
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body profileCanvas">
+          <h3><i class="fas fa-coins"></i>  <%= currentUser.wallet %> UC </h3>
+          <ul>
+             
+            <li><a href="/user/profile"><i class="far fa-user"></i>  My Profile</a></li>
+             <li><a href="/user/wallet"><i class="fas fa-coins"></i>  E-Wallet</a></li>
+             <li><a href="/user/favorites"><i class="far fa-heart"></i>   Favorites</a></li>
+             <li><a href="/products/new"><i class="far fa-plus-square"></i>   Add Item</a></li>
+             <li><a href="/user/itemsadded"><i class="fas fa-plus"></i>   Items Added</a></li> 
+             <li><a href="/user/itemswon"><i class="fas fa-shield-alt"></i>   Items Won</a></li>
+             <li><a href="/user/location"><i class="fas fa-map-marker-alt"></i>   Location</a></li>
+             <li><a href="/logout"><i class="fas fa-power-off"></i>  Log Out</a></li>
+            
+
+         </ul>
+        </div>
+      </div>
+      <% } %> 
+
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"  style="width:200px">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Explore</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body exploreCanvas">
+          <ul>
+            <li><a href="/all/Art">Art</a></li>
+            <li><a href="/all/Antique">Antique</a></li>
+            <li><a href="/all/Books">Books</a></li>
+            <li><a href="/all/Electronics">Electronics</a></li>
+            <li><a href="/all/Fashion">Fashion</a></li>
+            <li><a href="/all/Gadgets">Gadgets</a></li>
+            <li><a href="/all/Instruments">Instruments</a></li>
+            <li><a href="/all/Jewellery">Jewellery</a></li>
+            <li><a href="/all/Property">Property</a></li>
+            <li><a href="/all/Software">Software</a></li>
+            <li><a href="/all/Vehicles">Vehicles</a></li>
+            <li><a href="/all/Other">Other</a></li>
+            
+
+          </ul>
+        </div>
+      </div>
+    <main class="container mt-3 mb-5">
+      <% if(success && success.length) {%>
+        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+        
+        <% if(error && error.length) {%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+        <%- body %>
+        
+          
+
+    </main>
+
+    <footer class="bg-dark">
+      WEBBID
+    </footer>
+    
+    <script src='/javascripts/validateinput.js' ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+<script>
+  const dateInput = document.getElementById('startTime')
+  const invalid = document.getElementById('currentTime')
+  let tvout = new Date(Date.now()+300000)
+  let timesout = tvout.getFullYear() +'-' + appendZero(tvout.getMonth()+1) + '-' + appendZero(tvout.getDate())+'T'+appendZero(tvout.getHours())+':'+appendZero(tvout.getMinutes())
+  dateInput.setAttribute('min', timesout)
+  invalid.innerHTML = tvout.toLocaleString('en-US')
+  setInterval( changeMin , 60000)
+  function appendZero(val)
+  {
+    if(val<10)
+      return '0'+val
+    else
+    return val
+  }
+  function changeMin()
+  {
+    let tv = new Date(Date.now()+300000)
+    let times = tv.getFullYear() +'-' + appendZero(tv.getMonth()+1) + '-' + appendZero(tv.getDate())+'T'+appendZero(tv.getHours())+':'+appendZero(tv.getMinutes())
+    dateInput.setAttribute('min', times)
+    invalid.innerHTML = tv.toLocaleString('en-US')
+    
+
+  }
+</script>
+
+    
+</body>
+</html>

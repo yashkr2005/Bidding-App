@@ -1,0 +1,94 @@
+<% layout('layouts/formBoiler') %>
+<div class="row">
+    
+    <div class="col-lg-6 ms-auto me-auto">
+        <div class="card shadow">
+            <div class="card-body">
+             
+            
+        <h1>New Item</h1>
+        <hr>
+    <form action="/products" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+            <input class="form-control" type="text" id="title" name="product[title]" required>
+            
+        </div>
+        <div class="input-group mb-2">
+            
+            <span class="input-group-text" id="basic-addon2">Details</span>
+                <textarea class="form-control" type="text" id="description" name="product[description]"
+                    required></textarea>
+                
+        </div>
+
+       
+        <div class="row mb-3">
+            <div class="col-7">
+                <label for="formFileMultiple" class="form-label">Add Images</label>
+            
+            <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
+
+            </div>
+            <div class="col-5">
+                <label for="formSelect" class="form-label">Category</label>
+                <% const cat = ["Art","Antique","Books","Electronics","Fashion","Gadgets","Instruments","Jewellery","Property","Software","Vehicles"] %> 
+
+                <select class="form-select" id="formSelect" aria-label="Default select example" name="product[category]">
+                    <option value="Other" selected>Other</option>
+                    <% for(let i = 0; i<11; i++) {%> 
+                    <option value="<%=cat[i]%>"><%= cat[i] %> </option>
+                    <% } %> 
+                  </select>
+
+            </div>
+
+            
+            
+          </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text">Base Price</span>
+            <input class="form-control" type="number" min="0" id="price" name="product[price]" required>
+            <span class="input-group-text">.00 UC</span>
+            <div class="invalid-feedback">
+                Please provide a valid price.
+              </div>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Start Time</span>
+            <input class="form-control" type="datetime-local" id="startTime" name="product[startTime]" required>
+            <div class="invalid-feedback">
+                Provide a time greater than <span id="currentTime"></span>
+              </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="customRange3" class="form-label"><strong>Duration</strong>    <span class="value mb-3" style="margin-left: 10px;">   1 hr 0 min</span></label>
+            <input  type="range" class="form-range" name="product[duration]" min="0.5" max="3" step="0.5" value="1" id="customRange3">
+        </div>
+        
+        
+        <div>
+            <button class="btn btn-dark submit-button" style="width: 100%;">Add Item</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+</div>
+
+    
+<script>
+    var elem = document.querySelector('input[type="range"]');
+
+var rangeValue = function(){
+var newValue = elem.value;
+var hr=Math.floor(newValue);
+var min=newValue*60-hr*60;
+var target = document.querySelector('.value');
+target.innerHTML = `${hr} hr ${min} min`;
+}
+
+elem.addEventListener("input", rangeValue);
+
+</script>

@@ -1,0 +1,79 @@
+<% layout('layouts/boilerplate') %>
+<h1>E-Wallet</h1>
+<hr>
+<div class="row mt-2 ">
+    
+    
+    <div class="col-lg-4">
+        <div class="mb-3">
+
+        <h1><i class="fas fa-coins"></i>  <%= currentUser.wallet %> UC</h1>
+        </div>
+        
+    <form action="/user/wallet?_method=PUT" method="POST" novalidate class="validated-form">
+        <div class="input-group mb-3">
+          <span class="input-group-text">Value</span>
+            <input class="form-control" min="0" max="100000" type="number" id="wallet" placeholder="Max: 100000" name="walletAdd[wallet]" required>
+            <span class="input-group-text">.00 UC</span>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-dark submit-button" style="width: 100%;">Add Value</button>
+        </div>
+    </form>
+    </div>
+    <div class="col-lg-8">
+
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Transaction History
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <% if(tran.length == 0){ %>
+                    <strong>No History</strong> 
+                    <% }else{ %> 
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">Value(UC)</th>
+                                <th scope="col">To/From</th>
+                                <th scope="col">Particulars</th>
+                                <th scope="col">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% for(let i = tran.length - 1; i>=0; i--){ %> 
+                                    <% if(tran[i].amt >= 0){ %> 
+                                        <tr class="table-success">
+                                            <th scope="row">+<%=tran[i].amt %></th>
+                                            <td>@<%= tran[i].name %> </td>
+                                            <td><%= tran[i].way %> </td>
+                                            <td><%= tran[i].date.toLocaleDateString('en-GB') %> </td>
+                                          </tr>
+                                    <% } else {%> 
+                                        <tr class="table-danger">
+                                            <th scope="row"><%=tran[i].amt %> UC</th>
+                                            <td>@<%= tran[i].name %> </td>
+                                            <td><%= tran[i].way %> </td>
+                                            <td><%= tran[i].date.toLocaleDateString('en-GB') %> </td>
+                                          </tr>
+                                          <% }}%> 
+                            </tbody>
+                        </table>
+                    <% } %> 
+                </div>
+              </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+        <a href="#top" ><button id="scrollUp"><i class="fas fa-arrow-circle-up"></i></button></a>
+        <a href="#bottom" ><button id="scrollDown"><i class="fas fa-arrow-circle-down"></i></button></a>
+        
+        
+        <div id="bottom"></div>

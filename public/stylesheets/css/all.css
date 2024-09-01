@@ -1,0 +1,24 @@
+
+.contain {
+    position: relative; 
+    margin: 0 ; /* Center it */
+  }
+  .contain .content {
+    position: absolute; /* Position the background text */
+    bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+    
+    background: rgba(0, 0, 0, 0.40); /* Black background with 0.5 opacity */
+    width: 100%; /* Full width */
+    padding: 15px; /* Some padding */
+  }
+  .contain .content a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+  
+  }
+  .spectate {
+    font-size: 32px;
+  }
+
+  

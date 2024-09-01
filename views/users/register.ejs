@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/logo/favicon.png">
+    <link href="/stylesheets/signup.css" rel = "stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Webbid</title>
+</head>
+<body>
+    <main class="container mt-2 mb-2">
+        <h1><i class="fas fa-won-sign"></i>ebbid</h1>
+        <% if(success && success.length) {%>
+            <div class="alert alert-dark alert-dismissible fade show" role="alert">
+                <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+            
+            <% if(error && error.length) {%>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+        <div class="row mt-5">
+            <div class="col-lg-5">
+
+                <div class="card shadow cardForm mb-5">
+                    <div class="card-body">
+                      
+                        <div class="button-box">
+                            <div id="btn"></div>
+                            <button type="button" class="toggle-btn" onclick="login()">Log In</button>
+                            <button type="button" class="toggle-btn" onclick="register()">Sign Up</button>
+        
+                        </div>
+                        <form  action="/login" id="login" method="POST" class="validated-form inputForm">
+                            <div class="form-floating mb-3">
+                                
+                                <input class="form-control" type="text" id="floatingInput" placeholder="Username" name="username" required>
+                                <label for="floatingInput">Username</label>
+                            </div>
+                            
+                            <div class="form-floating mb-4">
+                                
+                                <input  class="form-control" type="password" id="floatingPassword" placeholder="Password" name="password" required>
+                                <label for="floatingPassword">Password</label>
+                            
+                            </div>
+                            <button class="btn btn-dark" type="submit" id="btnLogin">Log In</button>
+                        </form>
+                        <form id="register" action="/register" method="POST" class="validated-form inputForm">
+                            <div class="form-floating mb-3">
+                                
+                                <input autocomplete="off" class="form-control" type="text" id="floatingInput2" placeholder="Username" name="username" required>
+                                <label for="floatingInput2">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                
+                                <input autocomplete="off" class="form-control" type="email" id="floatingEmail" placeholder="Email" name="email" required>
+                                <label for="floatingEmail">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                
+                                <input autocomplete="new-password" class="form-control" type="password" id="floatingPassword2" minlength="6" placeholder="Password" name="password" required>
+                                <label for="floatingPassword2">Password</label>
+                            </div>
+                            <button type="submit" class="btn btn-dark" id="btnSignup">Sign Up</button>
+                        </form>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-lg-7">
+
+                <div class="card shadow-lg cardAbout">
+                    
+                    <div class="card-body">
+                        <h1>Hey There !</h1>
+                      <h5 class="card-title">Welcome to Webbid, A Realtime bidding platform where sellers can put up some rare and demanding items for sale 
+                          and other users can bid on it. Information related to biddings on a particular item update in real time. For the potential sellers 
+                          we have brought you the best bidding platform and for the interested buyers we have got for you the rarest and unique items 
+                          ranging from Art, Antiques to Autograph of your favorite celebrity. Be sure to sell some rare and cool stuffs otherwise it won't fetch a value.
+                          Give your max level of bid cause item once gone may not be found again. See you in there!
+                      </h5>
+                     
+                     
+                    </div>
+                  </div>
+
+            </div>
+        </div>
+    </main>
+    <footer>
+     <!--
+        <div class="footer">
+ 
+         <a href="https://github.com/milan0027" target="__blank"><i class="fab fa-github"></i></a> <a href="https://www.instagram.com/milan_miles_1/" target="__blank"><i class="fab fa-instagram"></i></a> 0027
+        <a href="https://www.facebook.com/milan.mundhra.5" target="__blank"><i class="fab fa-facebook-square"></i></a> <a href="https://www.linkedin.com/in/milanmundhra27" target="__blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+     --> 
+     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+<script>
+    var x = document.getElementById('login');
+    var y = document.getElementById('register');
+    var btn =  document.getElementById('btn');
+
+    document.getElementById('login').addEventListener('submit' ,(e)=>{
+         
+
+         document.getElementById('btnLogin').setAttribute('disabled', 'disabled')
+        document.getElementById('btnSignup').setAttribute('disabled', 'disabled')
+     })
+
+     document.getElementById('register').addEventListener('submit' ,(e)=>{
+
+         document.getElementById('btnLogin').setAttribute('disabled', 'disabled')
+        document.getElementById('btnSignup').setAttribute('disabled', 'disabled')
+     })
+
+    function register(){
+        x.style.left = "-22rem"
+        y.style.left = "2rem"
+        btn.style.left = "8rem"
+
+    }
+
+    function login(){
+        x.style.left = "2rem"
+        y.style.left = "24rem"
+        btn.style.left = "0rem"
+
+    }
+    
+</script>
+</body>
+</html>

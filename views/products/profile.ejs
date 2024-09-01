@@ -1,0 +1,43 @@
+<% layout('layouts/boilerplate') %>
+<h1>My Profile</h1>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="mb-3">
+            <button class="btn btn-dark">UserName</button>
+            <button class="btn btn-danger">@<%= currentUser.username %> </button>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-dark">Email</button>
+            <button class="btn btn-danger"><%= currentUser.email %> </button>
+        </div>
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/user/wallet">E-wallet</a>
+            <a class="btn btn-danger" href="/user/wallet"><%= currentUser.wallet %> UC</a>
+        </div>
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/user/itemswon">Items Won</a>
+            <a class="btn btn-danger" href="/user/itemswon"><%= currentUser.itemsWon.length %> </a>
+        </div>
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/user/itemsadded/sold">Items Sold</a>
+            <a class="btn btn-danger" href="/user/itemsadded/sold"><%= currentUser.itemsSold %> </a>
+        </div>
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/user/itemsadded">Items Added</a>
+            <a class="btn btn-danger" href="/user/itemsadded"><%= currentUser.itemsAdded.length %> </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/user/itemsadded/biddingover">Initiate Transactions</a>
+        </div>
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/user/location">Location</a>
+        </div>
+        <div class="mb-3">
+            <a class="btn btn-dark" href="/logout">Log Out</a>
+        </div>
+    </div>
+</div>
